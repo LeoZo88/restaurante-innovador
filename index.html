@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurante App</title>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js"></script>
+</head>
+<body>
+  <h1>Bienvenido al Restaurante</h1>
+  <div id="menu"></div>
+
+  <script>
+    // Tu configuración de Firebase (obtén esto desde la consola de Firebase)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDN2Eknr6WJa2f2PjYKwEEsmM4i1uhLC7o",
+      authDomain: "restaurante-innovador.firebaseapp.com",
+      projectId: "restaurante-innovador",
+      storageBucket: "restaurante-innovador.firebasestorage.app",
+      messagingSenderId: "1027474485562",
+      appId: "1:1027474485562:web:e40e40df43fb1dc2242003"
+    };
+
+    // Inicializar Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Obtener el menú desde Firestore
+    async function cargarMenu() {
+      const menuDiv = document.getElementById('menu');
+      const menuSnapshot = await db.collection('menu').get();
+      menuSnapshot.forEach((doc) => {
+        const data = doc.data();
+        menuDiv.innerHTML += `<p>${data.nombre} - Disponible: ${data.disponible}</p>`;
+      });
+    }
+
+    cargarMenu();
+  </script>
+</body>
+</html>
